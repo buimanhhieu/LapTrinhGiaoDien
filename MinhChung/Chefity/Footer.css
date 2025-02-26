@@ -1,0 +1,149 @@
+footer {
+    background-color: #111;
+    color: white;
+    font-size: 14px;
+
+}
+
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: auto;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #222;
+    justify-content: flex-start;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+    margin: 20px;
+    margin-left: 200px;
+}
+
+.footer-section h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #ff4081;
+}
+
+/* About Us Section */
+.subscribe {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.subscribe input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px 5px 5px 5px;
+    outline: none;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+.subscribe button {
+    background-color: #ff4081;
+    color: white;
+    border: none;
+    border-radius: 5px 5px 5px 5px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 10px 15px;
+    transition: background 0.5s ease;
+    margin-right: 30px;
+}
+
+.subscribe button:hover {
+    background-color: #e0356d;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.footer-logo img {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.footer-logo span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.footer-bottom p {
+    margin: 0;
+}
+
+.footer-bottom a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-bottom a:hover {
+    text-decoration: underline;
+}
+.footer-section-about{
+    margin-left: 100px;
+}
+.Learn-More{
+    margin-left: 100px;
+    margin-bottom: 30px;
+}
+.Shop{
+    margin-left: 100px;
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-container {
+flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-section {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .subscribe {
+        justify-content: center;
+    }
+}
