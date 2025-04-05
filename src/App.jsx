@@ -1,11 +1,21 @@
-import React from "react";
-import AdminPage from "./pages/AdminPage";
-import './app.css'
-const App = () => {
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
+import Dashboard from './pages/Dashboard';
+
+function App() {
   return (
-    <div className="container">
-      <AdminPage />
-    </div>
+    <Router>
+      <div className="flex min-h-screen">
+        <Sidebar />
+        <div className="flex-1 bg-gray-50">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
-};
+}
+
 export default App;

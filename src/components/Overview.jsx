@@ -1,21 +1,47 @@
-import React from "react";
+import React from 'react';
 
-// Overview Component
-const Overview = () => {
+const Overview = ({ stats }) => {
   return (
-    <section className="grid grid-cols-3 gap-4 p-4">
-      {[
-        { title: "Turnover", value: "$92,405", change: "5.39%" },
-        { title: "Profit", value: "$32,218", change: "5.39%" },
-        { title: "New Customer", value: "298", change: "6.84%" },
-      ].map((item, index) => (
-        <div key={index} className="bg-white p-4 shadow-md rounded-md">
-          <h3 className="text-lg font-semibold">{item.title}</h3>
-          <p className="text-2xl font-bold">{item.value}</p>
-          <span className="text-green-500">+{item.change} period of change</span>
+    <div className="grid grid-cols-3 gap-6">
+      <div className="bg-red-50 p-6 rounded-lg shadow-sm flex justify-between">
+        <div>
+          <h3 className="text-gray-600 mb-3">Turnover</h3>
+          <div className="text-3xl font-bold mb-2">${stats.turnover.value.toLocaleString()}</div>
+          <div className="text-green-600 text-sm">
+            ↑ {stats.turnover.change}% period of change
+          </div>
         </div>
-      ))}
-    </section>
+        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+          🛒
+        </div>
+      </div>
+      
+      <div className="bg-blue-50 p-6 rounded-lg shadow-sm flex justify-between">
+        <div>
+          <h3 className="text-gray-600 mb-3">Profit</h3>
+          <div className="text-3xl font-bold mb-2">${stats.profit.value.toLocaleString()}</div>
+          <div className="text-green-600 text-sm">
+            ↑ {stats.profit.change}% period of change
+          </div>
+        </div>
+        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+          💲
+        </div>
+      </div>
+      
+      <div className="bg-green-50 p-6 rounded-lg shadow-sm flex justify-between">
+        <div>
+          <h3 className="text-gray-600 mb-3">New customer</h3>
+          <div className="text-3xl font-bold mb-2">{stats.newCustomers.value}</div>
+          <div className="text-green-600 text-sm">
+            ↑ {stats.newCustomers.change}% period of change
+          </div>
+        </div>
+        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+          ⚙️
+        </div>
+      </div>
+    </div>
   );
 };
 

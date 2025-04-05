@@ -1,18 +1,7 @@
-@import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-html, body {
-  height: 100%;
-  margin: 0;
-  overflow: hidden; /* Prevent scroll bars */
-}
 
-.container {
-  height: 100%;
-  display: flex; /* To align items properly */
-  flex-direction: column; /* Adjust according to layout */
-}
-@media (max-width: 768px) {
-  /* Adjustments for smaller screens */
+html, body, #root {
+  @apply w-full;
 }
