@@ -1,48 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import Overview from '../components/Overview';
-import DataTable from '../components/DataTable';
+import React, { useState, useEffect } from "react";
+import Overview from "../components/Overview";
+import DataTable from "../components/DataTable";
 import searchIcon from "../assets/3_Data/Lab_02_b/search.png";
 const Dashboard = () => {
-    const [stats, setStats] = useState({
-        turnover: { value: 92405, change: 5.33 },
-        profit: { value: 32218, change: 5.33 },
-        newCustomers: { value: 298, change: 6.84 }
-      });
-      
-      const [orders, setOrders] = useState([]);
-      const [loading, setLoading] = useState(true);
-      
-      useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await fetch('https://67ec9394aa794fb3222e224b.mockapi.io/report');
-            const data = await response.json();
-            setOrders(data);
-            setLoading(false);
-          } catch (error) {
-            console.error("Error fetching data:", error);
-            setLoading(false);
-          }
-        };
-        
-        // For demo purposes, using mock data if API is not available yet
-        setTimeout(() => {
-          if (loading) {
-            setOrders([
-              { id: 1, customer: { name: 'Elizabeth Lee', avatar: '/api/placeholder/32/32' }, company: 'AvatarSystems', value: 359, date: '10/07/2023', status: 'New' },
-              { id: 2, customer: { name: 'Carlos Garcia', avatar: '/api/placeholder/32/32' }, company: 'SnoozeShift', value: 747, date: '24/07/2023', status: 'New' },
-              { id: 3, customer: { name: 'Elizabeth Bailey', avatar: '/api/placeholder/32/32' }, company: 'Prime Time Telecom', value: 564, date: '08/08/2023', status: 'In-progress' },
-              { id: 4, customer: { name: 'Ryan Brown', avatar: '/api/placeholder/32/32' }, company: 'OmniTech Corporation', value: 541, date: '31/08/2023', status: 'In-progress' },
-              { id: 5, customer: { name: 'Ryan Young', avatar: '/api/placeholder/32/32' }, company: 'DataStream Inc.', value: 769, date: '01/05/2023', status: 'Completed' },
-              { id: 6, customer: { name: 'Hailey Adams', avatar: '/api/placeholder/32/32' }, company: 'FlowRush', value: 922, date: '10/06/2023', status: 'Completed' },
-            ]);
-            setLoading(false);
-          }
-        }, 1000);
-        
-        // Attempt to fetch real data
-        fetchData();
-      }, [loading]);
+  const [stats, setStats] = useState({
+    turnover: { value: 0, change: 5.33 },
+    profit: { value: 0, change: 5.33 },
+    newCustomers: { value: 0, change: 6.84 },
+  });
+
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://67da1c8d35c87309f52b0083.mockapi.io/name/Report"
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        setOrders(data);
+
+        const totalTurnover = data.reduce(
+          (sum, item) => sum + (parseFloat(item.orderValue) || 0),
+          0
+        );
+        const profit = totalTurnover * 0.35; 
+        const newCustomers = data.length;
+
+        setStats({
+          turnover: { value: totalTurnover, change: 5.33 },
+          profit: { value: profit, change: 3.21 },
+          newCustomers: { value: newCustomers, change: 6.84 },
+        });
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="p-6">
@@ -50,12 +55,12 @@ const Dashboard = () => {
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <div className="flex items-center gap-4">
           <div className="relative">
-            <input 
-              type="text" 
-              placeholder="Search..." 
+            <input
+              type="text"
+              placeholder="Search..."
               className="py-2 px-4 pr-10 border border-gray-200 rounded-md w-48 m-6"
             />
-            <span className="absolute inset-y-0 left-3 flex items-center m-3">
+             <span className="absolute inset-y-0 left-3 flex items-center m-3">
                         <img src={searchIcon} alt="Search" className="w-5 h-5" />
                       </span>
           </div>
@@ -64,12 +69,12 @@ const Dashboard = () => {
           <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">👤</div>
         </div>
       </header>
-      
+
       <section className="mb-8">
         <h2 className="text-xl font-bold mb-4">Overview</h2>
-        {/* <Overview stats={stats} /> */}
+        <Overview stats={stats} />
       </section>
-      
+
       <section>
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Detailed report</h2>
@@ -78,11 +83,11 @@ const Dashboard = () => {
               <span className="mr-2">⬆️</span> Import
             </button>
             <button className="flex items-center px-4 py-2 bg-white border border-gray-200 rounded">
-              <span className="mr-2">⬇️</span> Export
+<span className="mr-2">⬇️</span> Export
             </button>
           </div>
         </div>
-        {/* <DataTable data={orders} loading={loading} /> */}
+        <DataTable data={orders} loading={loading} />
       </section>
     </div>
   );
