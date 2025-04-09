@@ -1,6 +1,10 @@
 import React from 'react';
 
-const Overview = ({ stats }) => {
+const Overview = ({ stats = {
+  turnover: { value: 0, change: 0 },
+  profit: { value: 0, change: 0 },
+  newCustomers: { value: 0, change: 0 }
+} }) => {
   return (
     <div className="grid grid-cols-3 gap-6">
       <div className="bg-red-50 p-6 rounded-lg shadow-sm flex justify-between">

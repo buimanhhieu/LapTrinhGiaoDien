@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Modal from '../components/Modal';
 
-const DataTable = ({ data, loading }) => {
+const DataTable = ({ data = [], loading }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,6 +46,8 @@ const DataTable = ({ data, loading }) => {
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       {loading ? (
         <div className="p-8 text-center">Loading...</div>
+      ) : data.length === 0 ? (
+        <div className="p-8 text-center text-gray-500">No data available.</div>
       ) : (
         <>
           <div className="overflow-x-auto">
