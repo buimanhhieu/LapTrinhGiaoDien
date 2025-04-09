@@ -1,40 +1,39 @@
+// Modal.jsx
 import React, { useState, useEffect } from 'react';
 
 const Modal = ({ isOpen, onClose, order, onSave }) => {
-    const [formData, setFormData] = useState({});
-    
-    useEffect(() => {
-      if (order) {
-        setFormData({
-          ...order,
-          customerName: order.customer?.name || ''
-        });
-      }
-    }, [order]);
-    
-    if (!isOpen) return null;
-    
-    const handleChange = (e) => {
-      const { name, value } = e.target;
+  const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    if (order) {
       setFormData({
-        ...formData,
-        [name]: value
+        customerName: order.customer.name,
+        company: order.company,
+        value: order.value,
+        status: order.status
       });
+    }
+  }, [order]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const updatedOrder = {
+      ...order,
+      customer: { ...order.customer, name: formData.customerName },
+      company: formData.company,
+      value: formData.value,
+      status: formData.status
     };
-    
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      
-      const updatedOrder = {
-        ...formData,
-        customer: {
-          ...formData.customer,
-          name: formData.customerName
-        }
-      };
-      
-      onSave(updatedOrder);
-    };
+    onSave(updatedOrder);
+  };
+
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg w-full max-w-md">
@@ -42,7 +41,7 @@ const Modal = ({ isOpen, onClose, order, onSave }) => {
           <h2 className="text-xl font-bold">Edit Order</h2>
           <button onClick={onClose} className="text-2xl">&times;</button>
         </div>
-        
+
         <form onSubmit={handleSubmit}>
           <div className="p-6">
             <div className="mb-4">
@@ -57,7 +56,7 @@ const Modal = ({ isOpen, onClose, order, onSave }) => {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
               />
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-2">
                 Company
@@ -70,7 +69,7 @@ const Modal = ({ isOpen, onClose, order, onSave }) => {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
               />
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-2">
                 Order Value
@@ -83,7 +82,7 @@ const Modal = ({ isOpen, onClose, order, onSave }) => {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
               />
             </div>
-            
+
             <div className="mb-4">
               <label className="block text-gray-700 font-medium mb-2">
                 Status
@@ -100,7 +99,7 @@ const Modal = ({ isOpen, onClose, order, onSave }) => {
               </select>
             </div>
           </div>
-          
+
           <div className="flex justify-end gap-2 border-t px-6 py-4">
             <button
               type="button"

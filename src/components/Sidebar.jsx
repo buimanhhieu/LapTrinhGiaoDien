@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import img from '../assets/3_Data/Selection_Sidebar.jpg'
+import img from '../assets/3_Data/Selection_Sidebar.jpg';
 
 const Sidebar = () => {
   return (
@@ -10,28 +9,28 @@ const Sidebar = () => {
           <span className="text-xl">🎨</span> Logo
         </div>
       </div>
-      
+
       <nav className="flex-1">
-        <Link to="/" className="flex items-center px-5 py-3 text-gray-600 hover:bg-pink-500 hover:text-white mx-2 rounded">
+        <button className="flex items-center w-full text-left px-5 py-3 text-gray-600 hover:bg-pink-500 hover:text-white mx-2 rounded">
           <span className="mr-3">📊</span> Dashboard
-        </Link>
-        <Link to="/projects" className="flex items-center px-5 py-3 text-gray-600 hover:bg-pink-500 hover:text-white mx-2 rounded">
+        </button>
+        <button className="flex items-center w-full text-left px-5 py-3 text-gray-600 hover:bg-pink-500 hover:text-white mx-2 rounded">
           <span className="mr-3">📁</span> Projects
-        </Link>
-        <Link to="/teams" className="flex items-center px-5 py-3 text-gray-600 hover:bg-pink-500 hover:text-white mx-2 rounded">
+        </button>
+        <button className="flex items-center w-full text-left px-5 py-3 text-gray-600 hover:bg-pink-500 hover:text-white mx-2 rounded">
           <span className="mr-3">👥</span> Teams
-        </Link>
-        <Link to="/analytics" className="flex items-center px-5 py-3 text-gray-600 hover:bg-pink-500 hover:text-white mx-2 rounded">
+        </button>
+        <button className="flex items-center w-full text-left px-5 py-3 text-gray-600 hover:bg-pink-500 hover:text-white mx-2 rounded">
           <span className="mr-3">📈</span> Analytics
-        </Link>
-        <Link to="/messages" className="flex items-center px-5 py-3 text-gray-600 hover:bg-pink-500 hover:text-white mx-2 rounded">
+        </button>
+        <button className="flex items-center w-full text-left px-5 py-3 text-gray-600 hover:bg-pink-500 hover:text-white mx-2 rounded">
           <span className="mr-3">✉️</span> Messages
-        </Link>
-        <Link to="/integrations" className="flex items-center px-5 py-3 text-gray-600 hover:bg-pink-500 hover:text-white mx-2 rounded">
+        </button>
+        <button className="flex items-center w-full text-left px-5 py-3 text-gray-600 hover:bg-pink-500 hover:text-white mx-2 rounded">
           <span className="mr-3">🔄</span> Integrations
-        </Link>
+        </button>
       </nav>
-      
+
       <div className="p-4 m-4 bg-blue-50 rounded-lg text-center mt-auto">
         <div className="mb-2">
           <img src={img} alt="" />
