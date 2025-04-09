@@ -1,6 +1,6 @@
 // DataTable.jsx
 import React, { useState } from 'react';
-import Modal from './Modal';
+import Modal from '../components/Modal';
 
 const DataTable = ({ data, loading }) => {
   const [modalOpen, setModalOpen] = useState(false);

@@ -1,7 +1,7 @@
 // Dashboard.jsx
 import React, { useState, useEffect } from 'react';
-import Overview from '../components/Overview';
-import DataTable from '../components/DataTable';
+import Overview from './Overview';
+import DataTable from './DataTable';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
