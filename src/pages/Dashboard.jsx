@@ -1,9 +1,10 @@
+// Dashboard.jsx
 import React, { useState, useEffect } from 'react';
 import Overview from '../components/Overview';
 import DataTable from '../components/DataTable';
 
 const Dashboard = () => {
-  const [stats] = useState({
+  const [stats, setStats] = useState({
     turnover: { value: 92405, change: 5.33 },
     profit: { value: 32218, change: 5.33 },
     newCustomers: { value: 298, change: 6.84 }
@@ -13,16 +14,34 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setOrders([
-      { id: 1, customer: { name: 'Elizabeth Lee', avatar: 'https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/512/51.jpg' }, company: 'AvatarSystems', value: 359, date: '10/07/2023', status: 'New' },
-      { id: 2, customer: { name: 'Carlos Garcia', avatar: 'https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/512/51.jpg' }, company: 'SnoozeShift', value: 747, date: '24/07/2023', status: 'New' },
-      { id: 3, customer: { name: 'Elizabeth Bailey', avatar: 'https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/512/51.jpg' }, company: 'Prime Time Telecom', value: 564, date: '08/08/2023', status: 'In-progress' },
-      { id: 4, customer: { name: 'Ryan Brown', avatar: 'https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/512/51.jpg' }, company: 'OmniTech Corporation', value: 541, date: '31/08/2023', status: 'In-progress' },
-      { id: 5, customer: { name: 'Ryan Young', avatar: 'https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/512/51.jpg' }, company: 'DataStream Inc.', value: 769, date: '01/05/2023', status: 'Completed' },
-      { id: 6, customer: { name: 'Hailey Adams', avatar: 'https://cdn.jsdelivr.net/gh/faker-js/assets-person-portrait/male/512/51.jpg' }, company: 'FlowRush', value: 922, date: '10/06/2023', status: 'Completed' },
-    ]);
-    setLoading(false);
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://67ec9394aa794fb3222e224b.mockapi.io/report');
+        const data = await response.json();
+        setOrders(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+
+    setTimeout(() => {
+      if (loading) {
+        setOrders([
+          { id: 1, customer: { name: 'Elizabeth Lee', avatar: '/api/placeholder/32/32' }, company: 'AvatarSystems', value: 359, date: '10/07/2023', status: 'New' },
+          { id: 2, customer: { name: 'Carlos Garcia', avatar: '/api/placeholder/32/32' }, company: 'SnoozeShift', value: 747, date: '24/07/2023', status: 'New' },
+          { id: 3, customer: { name: 'Elizabeth Bailey', avatar: '/api/placeholder/32/32' }, company: 'Prime Time Telecom', value: 564, date: '08/08/2023', status: 'In-progress' },
+          { id: 4, customer: { name: 'Ryan Brown', avatar: '/api/placeholder/32/32' }, company: 'OmniTech Corporation', value: 541, date: '31/08/2023', status: 'In-progress' },
+          { id: 5, customer: { name: 'Ryan Young', avatar: '/api/placeholder/32/32' }, company: 'DataStream Inc.', value: 769, date: '01/05/2023', status: 'Completed' },
+          { id: 6, customer: { name: 'Hailey Adams', avatar: '/api/placeholder/32/32' }, company: 'FlowRush', value: 922, date: '10/06/2023', status: 'Completed' },
+        ]);
+        setLoading(false);
+      }
+    }, 1000);
+
+    fetchData();
+  }, [loading]);
 
   return (
     <div className="p-6">

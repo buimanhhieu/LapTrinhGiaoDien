@@ -72,14 +72,18 @@ const DataTable = ({ data, loading }) => {
                     <td className="px-4 py-3">
                       <div className="flex items-center">
                         <div className="w-8 h-8 rounded-full overflow-hidden mr-3">
-                          <img src={order.customer.avatar} alt={order.customer.name} className="w-full h-full object-cover" />
+                          {order.avatar ? (
+                            <img src={order.avatar} alt={order.customerName} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full bg-gray-200 flex items-center justify-center text-sm">N/A</div>
+                          )}
                         </div>
-                        <span>{order.customer.name}</span>
+                        <span>{order.customerName || 'Unknown'}</span>
                       </div>
                     </td>
                     <td className="px-4 py-3">{order.company}</td>
-                    <td className="px-4 py-3">${order.value}</td>
-                    <td className="px-4 py-3">{order.date}</td>
+                    <td className="px-4 py-3">${order.orderValue}</td>
+                    <td className="px-4 py-3">{order.oderDate}</td>
                     <td className="px-4 py-3">
                       <span className={`px-2 py-1 rounded-md text-xs font-medium ${getStatusClass(order.status)}`}>
                         {order.status}
