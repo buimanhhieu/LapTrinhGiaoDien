@@ -1,26 +1,30 @@
-
 import React, { useState, useEffect } from 'react';
 import Modal from '../components/Modal';
 
-const DataTable = ({ loading }) => {
+const DataTable = () => {
   const [orders, setOrders] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const rowsPerPage = 5;
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await fetch('https://67ec9394aa794fb3222e224b.mockapi.io/report');
-        const data = await response.json();
-        setOrders(data);
-      } catch (error) {
-        console.error('Failed to fetch orders:', error);
-      }
-    };
     fetchOrders();
   }, []);
+
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('https://67ec9394aa794fb3222e224b.mockapi.io/report');
+      const data = await response.json();
+      setOrders(data);
+    } catch (error) {
+      console.error('Failed to fetch orders:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const openModal = (order) => {
     setSelectedOrder(order);
@@ -32,9 +36,22 @@ const DataTable = ({ loading }) => {
     setSelectedOrder(null);
   };
 
-  const handleSave = (updatedOrder) => {
-    console.log('Saving order:', updatedOrder);
-    closeModal();
+  const handleSave = async (updatedOrder) => {
+    try {
+      const response = await fetch(`https://67ec9394aa794fb3222e224b.mockapi.io/report/${updatedOrder.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedOrder),
+      });
+      const newOrder = await response.json();
+      setOrders((prev) =>
+        prev.map((item) => (item.id === newOrder.id ? newOrder : item))
+      );
+    } catch (error) {
+      console.error('Error updating order:', error);
+    } finally {
+      closeModal();
+    }
   };
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -68,32 +85,45 @@ const DataTable = ({ loading }) => {
             <table className="w-full">
               <thead>
                 <tr className="border-b">
-                  <th className="px-4 py-3">#</th>
-                  <th className="px-4 py-3">Customer Name</th>
-                  <th className="px-4 py-3">Company</th>
-                  <th className="px-4 py-3">Order Value</th>
-                  <th className="px-4 py-3">Order Date</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3">Actions</th>
+                  <th className="px-6 py-3">#</th>
+                  <th className="px-6 py-3">Customer Name</th>
+                  <th className="px-6 py-3">Company</th>
+                  <th className="px-6 py-3">Order Value</th>
+                  <th className="px-6 py-3">Order Date</th>
+                  <th className="px-6 py-3">Status</th>
                 </tr>
               </thead>
-              <tbody className="pl-4">
+              <tbody>
                 {currentRows.map((order, index) => (
-                  <tr key={order.id} className="border-b">
-                    <td className="px-4 py-3">{indexOfFirstRow + index + 1}</td>
-                    <td className="px-4 py-3">{order.customerName || 'Unknown'}</td>
-                    <td className="px-4 py-3">{order.company}</td>
-                    <td className="px-4 py-3">${order.orderValue}</td>
-                    <td className="px-4 py-3">{order.oderDate}</td>
-                    <td className="px-4 py-3">
+                  <tr
+                    key={order.id}
+                    className="border-b hover:bg-gray-50 cursor-pointer"
+                    onClick={() => openModal(order)}
+                  >
+                    <td className="px-6 py-3">{indexOfFirstRow + index + 1}</td>
+                    <td className="px-6 py-3">
+                      <div className="flex items-center">
+                        <div className="w-8 h-8 rounded-full overflow-hidden mr-3">
+                          {order.avatar ? (
+                            <img
+                              src={order.avatar}
+                              alt={order.customerName || 'Avatar'}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gray-200 flex items-center justify-center text-sm">N/A</div>
+                          )}
+                        </div>
+                        <span>{order.customerName || 'Unknown'}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-3">{order.company}</td>
+                    <td className="px-6 py-3">${order.orderValue}</td>
+                    <td className="px-6 py-3">{order.oderDate}</td>
+                    <td className="px-6 py-3">
                       <span className={`px-2 py-1 rounded-md text-xs font-medium ${getStatusClass(order.status)}`}>
                         {order.status}
                       </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <button onClick={() => openModal(order)} className="text-gray-500 hover:text-gray-700">
-                        ✏️
-                      </button>
                     </td>
                   </tr>
                 ))}
