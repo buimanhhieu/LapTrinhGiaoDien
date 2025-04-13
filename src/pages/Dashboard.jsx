@@ -99,7 +99,7 @@ const Dashboard = () => {
               <span className="mr-2">⬇️</span> Export
             </button>
             <button
-              className="flex items-center px-4 py-2 bg-pink-500 text-white rounded"
+              className="flex items-center px-4 py-2 bg-green-500 text-white rounded"
               onClick={() => setModalOpen(true)}
             >
               <span className="mr-2">➕</span> Add
