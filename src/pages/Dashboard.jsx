@@ -1,29 +1,25 @@
-// Dashboard.jsx
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Overview from "../pages/Overview";
 import DataTable from "../pages/DataTable";
+import Modal from "../components/Modal"; // Modal thêm mới
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
     turnover: { value: 0, change: 5.33 },
-    profit: { value: 0, change: 5.33 },
+    profit: { value: 0, change: 3.21 },
     newCustomers: { value: 0, change: 6.84 },
   });
 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://67ec9394aa794fb3222e224b.mockapi.io/report"
-        );
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
+        const response = await fetch("https://67ec9394aa794fb3222e224b.mockapi.io/report");
         const data = await response.json();
         setOrders(data);
 
@@ -31,7 +27,7 @@ const Dashboard = () => {
           (sum, item) => sum + (parseFloat(item.orderValue) || 0),
           0
         );
-        const profit = totalTurnover * 0.35; 
+        const profit = totalTurnover * 0.35;
         const newCustomers = data.length;
 
         setStats({
@@ -50,6 +46,24 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
+  const handleAddNew = async (newOrder) => {
+    try {
+      // Gửi dữ liệu mới lên API
+      await fetch("https://67ec9394aa794fb3222e224b.mockapi.io/report", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newOrder),
+      });
+
+      // Cập nhật ngay orders với dữ liệu mới thay vì gọi lại API
+      setOrders((prevOrders) => [...prevOrders, newOrder]);
+
+      setModalOpen(false); // Đóng modal
+    } catch (error) {
+      console.error("Failed to add:", error);
+    }
+  };
+
   return (
     <div className="p-6">
       <header className="flex justify-between items-center mb-8 border-b">
@@ -63,15 +77,9 @@ const Dashboard = () => {
             />
             <span className="absolute right-3 top-2.5 text-gray-400">🔍</span>
           </div>
-          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-            🔔
-          </div>
-          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-            ?
-          </div>
-          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-            👤
-          </div>
+          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">🔔</div>
+          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">?</div>
+          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">👤</div>
         </div>
       </header>
 
@@ -90,9 +98,17 @@ const Dashboard = () => {
             <button className="flex items-center px-4 py-2 bg-white border border-gray-200 rounded">
               <span className="mr-2">⬇️</span> Export
             </button>
+            <button
+              className="flex items-center px-4 py-2 bg-pink-500 text-white rounded"
+              onClick={() => setModalOpen(true)}
+            >
+              <span className="mr-2">➕</span> Add
+            </button>
           </div>
         </div>
+
         <DataTable data={orders} loading={loading} />
+        <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} onSave={handleAddNew} />
       </section>
     </div>
   );

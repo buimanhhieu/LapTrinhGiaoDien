@@ -1,64 +1,93 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from "react";
 
-const Modal = ({ isOpen, onClose, order, onSave }) => {
-  if (!order) return null; // Thêm kiểm tra để tránh lỗi khi order là undefined
-
-  const [formData, setFormData] = useState(order);
-
-  useEffect(() => {
-    if (order) {
-      setFormData(order);
-    }
-  }, [order]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+const Modal = ({ isOpen, onClose, onSave }) => {
+  const [customerName, setCustomerName] = useState("");
+  const [company, setCompany] = useState("");
+  const [orderValue, setOrderValue] = useState("");
+  const [orderDate, setOrderDate] = useState("");
+  const [status, setStatus] = useState("New");
 
   const handleSave = () => {
-    onSave(formData); // Lưu lại thông tin đã chỉnh sửa
+    const newOrder = {
+      customerName,
+      company,
+      orderValue,
+      orderDate,
+      status,
+    };
+    onSave(newOrder);
   };
 
+  if (!isOpen) return null;
+
   return (
-    isOpen && (
-      <div className="modal">
-        <div className="modal-content">
-          <button onClick={onClose}>Close</button>
-          <h2>Edit Order</h2>
-          <form>
-            <label>
-              Customer Name:
-              <input
-                type="text"
-                name="customerName"
-                value={formData.customerName || ''}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              Company:
-              <input
-                type="text"
-                name="company"
-                value={formData.company || ''}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              Order Value:
-              <input
-                type="number"
-                name="orderValue"
-                value={formData.orderValue || ''}
-                onChange={handleChange}
-              />
-            </label>
-            <button type="button" onClick={handleSave}>Save</button>
-          </form>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white p-6 rounded-lg w-96">
+        <h3 className="text-xl font-semibold mb-4">Add New Order</h3>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Customer Name</label>
+          <input
+            type="text"
+            className="w-full border border-gray-300 p-2 rounded-md"
+            value={customerName}
+            onChange={(e) => setCustomerName(e.target.value)}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Company</label>
+          <input
+            type="text"
+            className="w-full border border-gray-300 p-2 rounded-md"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Order Value</label>
+          <input
+            type="number"
+            className="w-full border border-gray-300 p-2 rounded-md"
+            value={orderValue}
+            onChange={(e) => setOrderValue(e.target.value)}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Order Date</label>
+          <input
+            type="date"
+            className="w-full border border-gray-300 p-2 rounded-md"
+            value={orderDate}
+            onChange={(e) => setOrderDate(e.target.value)}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Status</label>
+          <select
+            className="w-full border border-gray-300 p-2 rounded-md"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option value="New">New</option>
+            <option value="In-progress">In-progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+        <div className="flex justify-between">
+          <button
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded"
+            onClick={handleSave}
+          >
+            Save
+          </button>
         </div>
       </div>
-    )
+    </div>
   );
 };
 
