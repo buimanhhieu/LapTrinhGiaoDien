@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { addItem, removeItem, updateQuantity } from '../cartSlice'
+import { addItem, removeItem, updateQuantity } from '../components/cartSlice'
 
 function Cart() {
   const cartItems = useSelector(state => state.cart.cartItems)
@@ -10,7 +10,7 @@ function Cart() {
 
   return (
     <div>
-      <h2>🛒 Giỏ hàng</h2>
+      <h2>Giỏ hàng</h2>
       <button onClick={() => dispatch(addItem({ id: 1, name: 'Cà phê sữa', price: 30000, quantity: 1 }))}>
         + Thêm Cà phê sữa
       </button>
@@ -20,9 +20,9 @@ function Cart() {
 
       <ul>
         {cartItems.map(item => (
-          <li key={item.id}>
+          <li key={item.id} style={{ listStyle: 'none', borderBottom: '1px solid #ccc', borderRadius: '5px' }}>
             {item.name} - {item.quantity} x {item.price} = {item.quantity * item.price}đ
-            <button onClick={() => dispatch(removeItem(item.id))}>❌</button>
+           
             <input
               type="number"
               value={item.quantity}
@@ -31,6 +31,7 @@ function Cart() {
                 dispatch(updateQuantity({ id: item.id, quantity: Number(e.target.value) }))
               }
             />
+             <button onClick={() => dispatch(removeItem(item.id))} style={{color:"white" , backgroundColor:"red"}}>Delete</button>
           </li>
         ))}
       </ul>
