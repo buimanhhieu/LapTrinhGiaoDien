@@ -6,6 +6,7 @@ import TodoList from './feature/TodoList'
 import Theme from './feature/Theme'
 import { useSelector } from 'react-redux'
 import Cart from './feature/Cart'
+import Auth from './feature/Auth'
 
 function App() {
   const theme = useSelector(state => state.theme)
@@ -31,6 +32,10 @@ function App() {
 
       <span>Shopping Cart </span><br />
       <Cart /><br />
+      <span>===============================================</span><br />
+
+      <span>Auth </span><br />
+      <Auth /><br />
       <span>===============================================</span><br />
     </>
   )
