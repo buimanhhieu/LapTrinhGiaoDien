@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { addTodo, toggleTodo, removeTodo } from './TodoSlice'
+import { addTodo, toggleTodo, removeTodo } from '../components/TodoSlice'
 
 function TodoList() {
   const [input, setInput] = useState('')
@@ -29,8 +29,8 @@ function TodoList() {
         {todos.map(todo => (
           <li key={todo.id} style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
             {todo.text}
-            <button onClick={() => dispatch(toggleTodo(todo.id))}>✅</button>
-            <button onClick={() => dispatch(removeTodo(todo.id))}>🗑️</button>
+            <button onClick={() => dispatch(toggleTodo(todo.id))} style={{ backgroundColor: 'green', margin: '20px' }}>   Done</button>
+            <button onClick={() => dispatch(removeTodo(todo.id))} style={{backgroundColor:'red'}}>   Delete</button>
           </li>
         ))}
       </ul>

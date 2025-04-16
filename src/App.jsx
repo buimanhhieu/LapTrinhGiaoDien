@@ -1,10 +1,13 @@
 import './App.css'
-import Reducer from './components/Reducer'
-import UseState from './components/UseState'
-import UseReduxCounter from './components/UseReduxCounter'
-import TodoList from './components/TodoList'
+import Reducer from './feature/Reducer'
+import UseState from './feature/UseState'
+import UseReduxCounter from './feature/UseReduxCounter'
+import TodoList from './feature/TodoList'
+import Theme from './feature/Theme'
+import { useSelector } from 'react-redux'
 
 function App() {
+  const theme = useSelector(state => state.theme)
   return (
     <>
       <span>UseReducer</span><br />
@@ -19,6 +22,10 @@ function App() {
       
         <br />
       <TodoList /><br />
+      <span>===============================================</span><br />
+      <div className={theme === 'dark' ? 'dark' : 'light'}>
+      <Theme />
+    </div>
       <span>===============================================</span><br />
     </>
   )
