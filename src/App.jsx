@@ -11,7 +11,7 @@ import UserList from './feature/UserList'
 import Counter from './feature/Counter'
 import BmiForm from './feature/BmiForm'
 
-
+import EventManager from './feature/EventManager'
 
 
 
@@ -55,6 +55,10 @@ function App() {
 
       <span> Form tính toán đơn giản (BMI, thuế...)</span><br />
       <BmiForm /><br />
+      <span>===============================================</span><br />
+
+      <span> Quản lý sự kiện (Event Management)</span><br />
+      <EventManager /><br />
       <span>===============================================</span><br />
     </>
   )

@@ -8,6 +8,8 @@ import authReducer from './authSlice'
 import userReducer from './userSlice'
 import counterReducer2 from './counterSlice2'
 import formReducer from './formSlice'
+import eventReducer from './eventSlice'
+
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +20,8 @@ export const store = configureStore({
     auth: authReducer,
     users: userReducer,
     counter2: counterReducer2,
-    form: formReducer
+    form: formReducer,
+    events: eventReducer
+
   }
 })
