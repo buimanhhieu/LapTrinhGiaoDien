@@ -7,6 +7,7 @@ import Theme from './feature/Theme'
 import { useSelector } from 'react-redux'
 import Cart from './feature/Cart'
 import Auth from './feature/Auth'
+import UserList from './feature/UserList'
 
 function App() {
   const theme = useSelector(state => state.theme)
@@ -35,6 +36,10 @@ function App() {
       <span>===============================================</span><br />
 
       <span>Auth </span><br />
+      <Auth /><br />
+      <span>===============================================</span><br />
+
+      <span>Đồng bộ dữ liệu từ API (Async Thunk) </span><br />
       <Auth /><br />
       <span>===============================================</span><br />
     </>
