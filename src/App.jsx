@@ -46,7 +46,7 @@ function App() {
       <span>===============================================</span><br />
 
       <span>Đồng bộ dữ liệu từ API (Async Thunk) </span><br />
-      <Auth /><br />
+      <UserList /><br />
       <span>===============================================</span><br />
 
       <span>Counter nâng cao có reset và tăng theo step</span><br />
