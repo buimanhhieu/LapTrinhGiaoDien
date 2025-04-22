@@ -9,6 +9,11 @@ import Cart from './feature/Cart'
 import Auth from './feature/Auth'
 import UserList from './feature/UserList'
 import Counter from './feature/Counter'
+import BmiForm from './feature/BmiForm'
+
+
+
+
 
 function App() {
   const theme = useSelector(state => state.theme)
@@ -46,6 +51,10 @@ function App() {
 
       <span>Counter nâng cao có reset và tăng theo step</span><br />
       <Counter /><br />
+      <span>===============================================</span><br />
+
+      <span> Form tính toán đơn giản (BMI, thuế...)</span><br />
+      <BmiForm /><br />
       <span>===============================================</span><br />
     </>
   )
