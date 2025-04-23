@@ -1,7 +1,13 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { removeTodo } from "./todoSlice";
 
 export default function TodoList() {
   const todos = useSelector((state) => state.todos);
+  const dispatch = useDispatch();
+
+  const handleDelete = (id) => {
+    dispatch(removeTodo(id)); // Gọi action xóa công việc
+  };
 
   return (
     <div className="space-y-2">
@@ -14,7 +20,12 @@ export default function TodoList() {
             {todo.name}
           </span>
           <span className="mx-2">{todo.completed ? "✅" : "❌"}</span>
-          <button className="text-red-500 hover:text-red-700">Xoá</button>
+          <button
+            onClick={() => handleDelete(todo.id)}
+            className="text-red-500 hover:text-red-700"
+          >
+            Xoá
+          </button>
         </div>
       ))}
     </div>

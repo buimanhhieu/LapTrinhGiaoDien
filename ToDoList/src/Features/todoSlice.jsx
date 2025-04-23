@@ -16,9 +16,11 @@ const todoSlice = createSlice({
         completed: false,
       });
     },
-    // Tạm thời chưa xử lý xóa hoặc toggle
+    removeTodo: (state, action) => {
+      return state.filter(todo => todo.id !== action.payload);
+    },
   },
 });
 
-export const { addTodo } = todoSlice.actions;
+export const { addTodo, removeTodo } = todoSlice.actions;
 export default todoSlice.reducer;

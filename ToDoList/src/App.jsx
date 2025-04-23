@@ -3,7 +3,7 @@ import TodoList from "./features/TodoList";
 
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 w-full">
       <div className="w-full max-w-md p-6 bg-white rounded shadow-md text-center">
         <h1 className="text-2xl font-bold mb-4">Danh sách công việc</h1>
         <AddTodo />
