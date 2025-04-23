@@ -1,32 +1,62 @@
 import { useSelector, useDispatch } from "react-redux";
-import { removeTodo, toggleTodo } from "./todoSlice";
+import { removeTodo, toggleTodo, setFilter } from "./todoSlice";
 
 export default function TodoList() {
-  const todos = useSelector((state) => state.todos);
+  const { todos, filter } = useSelector((state) => state.todos);
   const dispatch = useDispatch();
 
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "completed") return todo.completed;
+    if (filter === "incomplete") return !todo.completed;
+    return true; // 'all' filter sẽ trả về tất cả công việc
+  });
+
   const handleDelete = (id) => {
-    dispatch(removeTodo(id)); // Gọi action xóa công việc
+    dispatch(removeTodo(id));
   };
 
   const handleToggle = (id) => {
-    dispatch(toggleTodo(id)); // Gọi action toggle công việc
+    dispatch(toggleTodo(id));
+  };
+
+  const handleFilterChange = (filter) => {
+    dispatch(setFilter(filter));
   };
 
   return (
     <div className="space-y-2">
-      {todos.map((todo) => (
+      {/* Các nút lọc */}
+      <div className="flex justify-center gap-4 mb-4">
+        <button
+          onClick={() => handleFilterChange("all")}
+          className={`py-1 px-3 rounded-lg ${filter === "all" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+        >
+          Tất cả
+        </button>
+        <button
+          onClick={() => handleFilterChange("completed")}
+          className={`py-1 px-3 rounded-lg ${filter === "completed" ? "bg-green-500 text-white" : "bg-gray-200"}`}
+        >
+          Đã hoàn thành
+        </button>
+        <button
+          onClick={() => handleFilterChange("incomplete")}
+          className={`py-1 px-3 rounded-lg ${filter === "incomplete" ? "bg-red-500 text-white" : "bg-gray-200"}`}
+        >
+          Chưa hoàn thành
+        </button>
+      </div>
+
+      {/* Danh sách công việc */}
+      {filteredTodos.map((todo) => (
         <div
           key={todo.id}
           className="flex items-center justify-between p-3 border rounded-lg shadow-sm bg-white"
         >
-          {/* Phần nút Toggle và tên công việc */}
           <div className="flex items-center gap-3">
             <button
-              onClick={() => handleToggle(todo.id)} // Toggle hoàn thành
-              className={`py-1 px-3 rounded-full text-white ${
-                todo.completed ? "bg-green-500" : "bg-gray-400"
-              }`}
+              onClick={() => handleToggle(todo.id)}
+              className={`py-1 px-3 rounded-full text-white ${todo.completed ? "bg-green-500" : "bg-gray-400"}`}
             >
               {todo.completed ? "Hoàn thành" : "Chưa hoàn thành"}
             </button>
@@ -36,8 +66,6 @@ export default function TodoList() {
               {todo.name}
             </span>
           </div>
-
-          {/* Nút Xoá màu đỏ */}
           <button
             onClick={() => handleDelete(todo.id)}
             className="text-red-500 hover:text-red-700 py-1 px-3 rounded-lg border border-red-500"
