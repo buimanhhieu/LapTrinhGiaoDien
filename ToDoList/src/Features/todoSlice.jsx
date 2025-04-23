@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const loadTodosFromLocalStorage = () => {
+  const todos = localStorage.getItem('todos');
+  return todos ? JSON.parse(todos) : [];
+};
+
 const initialState = {
-  todos: [
-    { id: 1, name: "Học ReactJS", completed: false },
-    { id: 2, name: "Làm bài kiểm tra", completed: true },
-    { id: 3, name: "Làm bài tập Redux", completed: false },
-  ],
+  todos: loadTodosFromLocalStorage(),
   filter: 'all', // 'all', 'completed', 'incomplete'
 };
 
@@ -14,23 +15,27 @@ const todoSlice = createSlice({
   initialState,
   reducers: {
     addTodo: (state, action) => {
-      state.todos.push({
+      const newTodo = {
         id: Date.now(),
         name: action.payload,
         completed: false,
-      });
+      };
+      state.todos.push(newTodo);
+      localStorage.setItem('todos', JSON.stringify(state.todos)); // Lưu vào localStorage
     },
     removeTodo: (state, action) => {
       state.todos = state.todos.filter(todo => todo.id !== action.payload);
+      localStorage.setItem('todos', JSON.stringify(state.todos)); // Lưu vào localStorage
     },
     toggleTodo: (state, action) => {
       const todo = state.todos.find(todo => todo.id === action.payload);
       if (todo) {
         todo.completed = !todo.completed;
       }
+      localStorage.setItem('todos', JSON.stringify(state.todos)); // Lưu vào localStorage
     },
     setFilter: (state, action) => {
-      state.filter = action.payload; // Cập nhật trạng thái filter
+      state.filter = action.payload;
     },
   },
 });
