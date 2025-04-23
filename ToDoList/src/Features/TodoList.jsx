@@ -5,11 +5,16 @@ export default function TodoList() {
   const { todos, filter } = useSelector((state) => state.todos);
   const dispatch = useDispatch();
 
+  // Lọc danh sách công việc theo filter
   const filteredTodos = todos.filter((todo) => {
     if (filter === "completed") return todo.completed;
     if (filter === "incomplete") return !todo.completed;
     return true; // 'all' filter sẽ trả về tất cả công việc
   });
+
+  // Tính tổng số công việc và số công việc hoàn thành
+  const totalTodos = todos.length;
+  const completedTodos = todos.filter((todo) => todo.completed).length;
 
   const handleDelete = (id) => {
     dispatch(removeTodo(id));
@@ -24,7 +29,7 @@ export default function TodoList() {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-4">
       {/* Các nút lọc */}
       <div className="flex justify-center gap-4 mb-4">
         <button
@@ -45,6 +50,12 @@ export default function TodoList() {
         >
           Chưa hoàn thành
         </button>
+      </div>
+
+      {/* Hiển thị tổng số công việc */}
+      <div className="flex justify-between items-center text-lg font-semibold">
+        <span>Tổng: {totalTodos}</span>
+        <span>Hoàn thành: {completedTodos}</span>
       </div>
 
       {/* Danh sách công việc */}
